@@ -1,0 +1,51 @@
+/*
+  Theme tokens, light + dark. This is the one file to touch to
+  reskin the app.
+
+  Direction: PhonePe + Upstox's shared visual language — a deep
+  violet brand color (not the generic AI-chatbot blue/teal), rounder
+  "phone app" card shapes, and green-for-good fintech signaling
+  (borrowed from gain/loss tickers) applied to the one thing this app
+  actually measures: response speed. Switch themes via
+  documentElement.dataset.theme = "light" | "dark"; everything below
+  reacts to that automatically.
+*/
+
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f6f4fb;
+  --surface-raised: #ffffff;
+  --border: #e8e4f5;
+  --text: #1b1030;
+  --muted: #7c7590;
+  --accent: #5f2ec4;
+  --accent-soft: #5f2ec41a;
+  --accent-2: #8b5cf6;
+  --positive: #17c964;
+  --positive-soft: #17c9641a;
+  --danger: #f5384e;
+  --shadow: 0 2px 14px rgba(95, 46, 196, 0.08);
+
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius: 14px;
+  --radius-lg: 22px;
+}
+
+[data-theme="dark"] {
+  --bg: #14101f;
+  --surface: #1f1830;
+  --surface-raised: #2a2140;
+  --border: #362a52;
+  --text: #f2eefb;
+  --muted: #9188a8;
+  --accent: #8b5cf6;
+  --accent-soft: #8b5cf633;
+  --accent-2: #c4b5fd;
+  --positive: #22c55e;
+  --positive-soft: #22c55e26;
+  --danger: #ff5c72;
+  --shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
