@@ -1,3 +1,8 @@
+import {
+  Lightbulb, Code2, FileText, Globe, Menu, Zap, Moon, Sun,
+  Copy, RotateCw, ThumbsUp, ThumbsDown, Camera, Monitor, Brain, X,
+  Pencil, Plus, Send, Loader2, BrainCircuit,
+} from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useChatSessions } from "./useChatSessions.js";
 import { useTheme } from "./useTheme.js";
@@ -21,10 +26,10 @@ function formatRelativeTime(ts) {
 
 function getQuickPrompts(t) {
   return [
-    { icon: "💡", label: t.quickExplain, prompt: "Explain " },
-    { icon: "🧑‍💻", label: t.quickCode, prompt: "Write code that " },
-    { icon: "📝", label: t.quickSummarize, prompt: "Summarize this: " },
-    { icon: "🌐", label: t.quickTranslate, prompt: "Translate this to " },
+    { icon: <Lightbulb size={20} />, label: t.quickExplain, prompt: "Explain " },
+    { icon: <Code2 size={20} />, label: t.quickCode, prompt: "Write code that " },
+    { icon: <FileText size={20} />, label: t.quickSummarize, prompt: "Summarize this: " },
+    { icon: <Globe size={20} />, label: t.quickTranslate, prompt: "Translate this to " },
   ];
 }
 
@@ -230,7 +235,7 @@ export default function App() {
             setSidebarOpen(false);
           }}
         >
-          <span className="plus">+</span> {t.newChat}
+          <Plus size={18} className="plus" /> {t.newChat}
         </button>
 
         <div className="session-list">
@@ -273,7 +278,7 @@ export default function App() {
                         startRename(s);
                       }}
                     >
-                      ✎
+                      <Pencil size={14} />
                     </button>
                     <button
                       className="icon-btn"
@@ -283,7 +288,7 @@ export default function App() {
                         deleteSession(s.id);
                       }}
                     >
-                      ✕
+                      <X size={14} />
                     </button>
                   </div>
                 </>
@@ -300,10 +305,12 @@ export default function App() {
             onClick={() => setSidebarOpen(true)}
             aria-label="Open chat list"
           >
-            ☰
+            <Menu size={20} />
           </button>
           <div className="brand">
-            <span className="brand-mark">⚡</span>
+            <span className="brand-mark">
+              <Zap size={18} />
+            </span>
             <span className="brand-name">groq chat</span>
           </div>
           <button
@@ -315,7 +322,7 @@ export default function App() {
           >
             <span className="theme-toggle-track">
               <span className="theme-toggle-thumb">
-                {theme === "dark" ? "🌙" : "☀️"}
+                {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
               </span>
             </span>
           </button>
@@ -325,13 +332,13 @@ export default function App() {
             onClick={toggleConcise}
             title="Prefer short, to-the-point answers"
           >
-            ⚡ Concise
+            <Zap size={15} /> Concise
           </button>
           <button
             className="ghost-btn"
             onClick={() => setMemoryPanelOpen(true)}
           >
-            🧠 {t.memory}
+            <Brain size={15} /> {t.memory}
           </button>
           <button
             className="ghost-btn share-btn"
@@ -387,7 +394,9 @@ export default function App() {
                   )}
                   <div className="bubble-content">
                     {m.content ||
-                      (isStreaming && isLastMessage ? "…" : "")}
+                      (isStreaming && isLastMessage ? (
+                        <Loader2 size={16} className="typing-spinner" />
+                      ) : "")}
                   </div>
                   {m.role === "assistant" && m.latencyMs != null && (
                     <div className="latency-badge" title="Time to full response">
@@ -401,7 +410,7 @@ export default function App() {
                         title="Copy"
                         onClick={() => handleCopy(m.content)}
                       >
-                        📋
+                        <Copy size={15} />
                       </button>
                       {isCompleteAssistant && (
                         <>
@@ -410,21 +419,21 @@ export default function App() {
                             title="Regenerate"
                             onClick={() => handleRegenerate(i)}
                           >
-                            🔄
+                            <RotateCw size={15} />
                           </button>
                           <button
                             className={`msg-action-btn ${m.reaction === "up" ? "active" : ""}`}
                             title="Good response"
                             onClick={() => handleReaction(i, "up")}
                           >
-                            👍
+                            <ThumbsUp size={15} />
                           </button>
                           <button
                             className={`msg-action-btn ${m.reaction === "down" ? "active" : ""}`}
                             title="Not helpful"
                             onClick={() => handleReaction(i, "down")}
                           >
-                            👎
+                            <ThumbsDown size={15} />
                           </button>
                         </>
                       )}
@@ -453,7 +462,7 @@ export default function App() {
                 onClick={() => setCaptureMode("camera")}
                 title="Analyze from camera"
               >
-                📷
+                <Camera size={17} />
               </button>
               <button
                 type="button"
@@ -461,7 +470,7 @@ export default function App() {
                 onClick={() => setCaptureMode("screen")}
                 title="Analyze screen"
               >
-                🖥️
+                <Monitor size={17} />
               </button>
             </div>
 
@@ -474,7 +483,7 @@ export default function App() {
                   onClick={() => setPendingImage(null)}
                   aria-label="Remove image"
                 >
-                  ✕
+                  <X size={14} />
                 </button>
                 <span className="pending-image-label">
                   Attached — will be sent with your next message
@@ -494,15 +503,22 @@ export default function App() {
                 className="send-btn"
                 onClick={handleSend}
                 disabled={isStreaming || !input.trim()}
+                aria-label={t.send}
               >
-                {isStreaming ? "…" : t.send}
+                {isStreaming ? (
+                  <Loader2 size={18} className="spin" />
+                ) : (
+                  <Send size={18} />
+                )}
               </button>
             </div>
           </div>
         </footer>
 
         {learnedToast && (
-          <div className="learned-toast">🧠 Remembered: {learnedToast}</div>
+          <div className="learned-toast">
+            <BrainCircuit size={16} /> Remembered: {learnedToast}
+          </div>
         )}
       </div>
 

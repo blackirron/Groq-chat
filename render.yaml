@@ -9,8 +9,15 @@ services:
     startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GROQ_API_KEY
-        sync: false # set this manually in the Render dashboard — never commit it
+        sync: false
       - key: GROQ_MODEL
         value: qwen/qwen3.6-27b
       - key: CORS_ORIGINS
-        value: "*" # same-origin single service, so this isn't load-bearing here
+        value: "*"
+      - key: PYTHON_VERSION
+        value: 3.12.7
+        # Render defaults to the newest Python (3.14 as of this deploy), which is
+        # too new for pydantic-core==2.27.2 to have a prebuilt wheel for -- it falls
+        # back to compiling from source via Rust/maturin, which then fails separately
+        # because Render's build filesystem is read-only for the Cargo cache.
+        # Pinning to a stable, widely-supported version avoids both problems.
